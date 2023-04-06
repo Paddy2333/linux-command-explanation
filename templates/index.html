@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+  <title>Linux Command Explanation Tool</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+  <link rel="stylesheet" href="https://s1.pstatp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" /> 
+  <script src="https://s1.pstatp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js"></script> 
+  <script>
+      $(document).ready(function() {
+        // 处理表单提交事件
+        $('form').submit(function(event) {
+          event.preventDefault();
+          var command = $('#command').val();
+          // 发送命令解释请求
+          $.ajax({
+            url: '/generate',
+            type: 'POST',
+            data: { command: command },
+            dataType: 'json',
+            success: function(response) {
+              // 更新解释文本
+              $('#explanation').text(response.explanation);
+            },
+            error: function(error) {
+              console.log(error);
+            }
+          });
+        });
+      });
+    </script> 
+ </head> 
+ <body class="bg-gray-100 py-8 px-4"> 
+  <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md overflow-hidden"> 
+   <h1 class="text-xl font-semibold text-gray-800 py-4 px-6 bg-gray-100">Linux Command Explanation Tool</h1> 
+   <form class="py-4 px-6"> 
+    <label class="block font-semibold text-gray-700 mb-2" for="command">Enter a Linux command:</label> 
+    <input class="border rounded-lg py-2 px-3 mb-4 w-full" type="text" id="command" name="command" /> 
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Explain</button> 
+   </form> 
+   <hr class="border-gray-200" /> 
+   <h2 class="text-lg font-semibold text-gray-800 py-4 px-6 bg-gray-100">Explanation:</h2> 
+   <p id="explanation" class="py-4 px-6"></p> 
+  </div> 
+  <!-- 在屏幕尺寸小于md时隐藏下方文本 --> 
+  <div class="hidden md:block text-center text-gray-500 text-xs mt-4">
+    &copy; 2023 Linux Command Explanation Tool. All rights reserved. 
+  </div>  
+ </body>
+</html>
